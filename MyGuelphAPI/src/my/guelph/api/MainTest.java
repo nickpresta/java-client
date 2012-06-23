@@ -19,20 +19,29 @@ public class MainTest extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        //Create guelph object to control primary API functions
         MyGuelph Guelph = new MyGuelph("jordan","e77e58cf77e78e718f5dc2eb2cc177c4ef708fd1");
         
         //Returns JSON string of Current Guelph news
-
-       /* ArrayList<GuelphNews> news = Guelph.getGuelphNews("BLANK");
         
-        //Test results
+        //Test GuelphNews results--------------------------------------------
+        /* ArrayList<GuelphNews> news = Guelph.getGuelphNews();
         for(GuelphNews k:news){
         	System.out.println(k.toString());
         }*/
-        GuelphMealPlan mealPlan = null;
-        mealPlan = Guelph.getGuelphMealPlan("jbrobyn","kloC9Dsh");
         
+        //Test GuelphMealPlan Results----------------------------------------
+        /*GuelphMealPlan mealPlan = null;
+        mealPlan = Guelph.getGuelphMealPlan("jbrobyn","kloC9Dsh");
         System.out.println(mealPlan.toString());
+        */
+        
+        //Test GuelphSchedule Results---------------------------------------
+        ArrayList<GuelphSchedule> courses = Guelph.getGuelphSchedule("jbrobyn", "kloC9Dsh");
+        for(GuelphSchedule k: courses){
+        	System.out.println(k.toString());
+        }
         
     }
 }

@@ -41,7 +41,7 @@ public class GuelphMealPlan {
 	}
 	
 	//Create the and store the mealplan info
-	public static GuelphMealPlan parseJSON(String jString){
+	public GuelphMealPlan parseJSON(String jString){
 		
 		try {
 		    JSONObject jsonObject = new JSONObject(jString);

@@ -30,8 +30,8 @@ public class MyGuelph{
 		userID = _userID;
 		key = _key;
 	}
-	//Action to retrieve a map of GuelphNews objects
-	public ArrayList<GuelphNews> getGuelphNews(String url){
+	//Action to retrieve a ArrayList of GuelphNews objects
+	public ArrayList<GuelphNews> getGuelphNews(){
 		URL news = null;
 		BufferedReader in = null;
 		String inputLine;
@@ -47,6 +47,7 @@ public class MyGuelph{
 			System.out.println(jString);
 			in.close();
 			
+			//Return an Arraylist containing GuelphNews objects with relative information
 			return new GuelphNews().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {
@@ -61,13 +62,12 @@ public class MyGuelph{
 			
 		}
 
+		//Failed to get values... deal with it!
 		return null;
 	}
 	
 	public GuelphMealPlan getGuelphMealPlan(String user, String password){
-		
-		@SuppressWarnings("unused")
-		HttpResponse result = null;
+	
 		DefaultHttpClient client = new DefaultHttpClient();
 		
 		//Set the request url
@@ -81,10 +81,9 @@ public class MyGuelph{
         	HttpResponse response = client.execute(request);
         	HttpEntity entity = response.getEntity();
             String jString = convertStreamToString(entity.getContent());
-            GuelphMealPlan mealPlan = new GuelphMealPlan();
-            mealPlan = GuelphMealPlan.parseJSON(jString);
             
-            return mealPlan;
+            //Returns a GuelphMealPlan object containing important information regarding the current plan and balance
+            return new GuelphMealPlan().parseJSON(jString);
             
         } catch (ClientProtocolException e) {
             // TODO: Log this
@@ -92,10 +91,40 @@ public class MyGuelph{
             // TODO: Log this
         }
 		
+      //Failed to get values... deal with it!
 		return null;
 	}
 	
-	//Checks for network connectivity
+	//Returns Schedule object with specific user courses
+	public ArrayList<GuelphSchedule> getGuelphSchedule(String user, String password){
+		
+		DefaultHttpClient client = new DefaultHttpClient();
+	
+		//Set the request url
+        HttpGet request = new HttpGet("https://apiguelph-nickpresta.dotcloud.com/api/v1/schedule/"+user+"/?format=json&username="+userID+"&api_key="+key);
+        //Set authentication request
+        client.getCredentialsProvider().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, password));
+        
+        //Send get request to server for json list of user courses
+        try{
+        	HttpResponse response = client.execute(request);
+        	String jString	= convertStreamToString(response.getEntity().getContent());
+        	
+        	//Return an arraylist of courses in the users current schedule
+        	return new GuelphSchedule().parseJSON(jString);
+        	
+        }catch(IOException e){
+        	
+        } catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        //Failed to get values... deal with it!
+        return null;
+	}
+	
+	//Checks for network connectivity.... implement eventually
 	/*public boolean isNetworkAvailable() {
 	    ConnectivityManager cm = (ConnectivityManager) 
 	    	getSystemService(Context.CONNECTIVITY_SERVICE);
