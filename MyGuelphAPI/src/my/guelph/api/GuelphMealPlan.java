@@ -45,7 +45,7 @@ public class GuelphMealPlan {
 		
 		try {
 		    JSONObject jsonObject = new JSONObject(jString);
-		    
+		    System.out.println(jsonObject.toString());
 		    //Check for jsonString errors
 		    
 		    //Set and gather info from the jsonString
@@ -58,9 +58,9 @@ public class GuelphMealPlan {
 		    
 		} catch (JSONException e) {
 		    e.printStackTrace();
+		    return null;
 		}
-		
-		return null;	
+	
 	}
 	
 }

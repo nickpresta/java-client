@@ -81,13 +81,16 @@ public class GuelphSchedule {
     
     //Return the list of courses the schedule information
 	public ArrayList<GuelphSchedule> parseJSON(String jString) throws JSONException{
-			
 		try {
 		    JSONObject jsonObject = new JSONObject(jString);
 		    JSONArray objects = jsonObject.getJSONArray("schedule");
 		    
 		    ArrayList<GuelphSchedule> courses = new ArrayList<GuelphSchedule>();
 		    
+		    if(objects.length() <= 0){
+		    	System.out.println("No registered courses");
+		    	return null;
+		    }
 		    //Populate ArrayList
 		    for(int i=0; i< objects.length(); i++){
 		    	JSONObject jCourseObj = objects.getJSONObject(i);
@@ -106,8 +109,7 @@ public class GuelphSchedule {
 		    return courses;
 		} catch (JSONException e) {
 		    e.printStackTrace();
+		    return null;
 		}
-		
-		return null;
 	}
 }

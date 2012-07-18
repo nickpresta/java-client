@@ -24,27 +24,40 @@ public class MyGuelph{
 	
 	private String userID;
 	private String key;
+	private String nextNews;
+	private String nextCourses;
+	private String nextEvents;
+	private String site;
+	private String format;
 	
 	//Set the userid and key to access the server;
 	public MyGuelph(String _userID, String _key){
-		userID = _userID;
-		key = _key;
+		userID = "&username="+_userID;
+		key = "&api_key="+_key;
+		format = "&format=json";
+		site = "https://apiguelph-nickpresta.dotcloud.com";
+		nextNews = null;
+		nextCourses = null;
+		nextEvents = null;
 	}
+	
 	//Action to retrieve a ArrayList of GuelphNews objects
-	public ArrayList<GuelphNews> getGuelphNews(){
+	public ArrayList<GuelphNews> getGuelphNews(int lim){
 		URL news = null;
 		BufferedReader in = null;
 		String inputLine;
 		String jString = new String();
 		
+		if(lim <= 0)
+			lim = 20;
+		String limit = "&limit="+lim;
 		try {
-			news = new URL("https://apiguelph-nickpresta.dotcloud.com/api/v1/news/?username="+userID+"&api_key="+key+"&format=json");
+			news = new URL(site+"/api/v1/news/?"+userID+key+format+limit);
 			in = new BufferedReader(new InputStreamReader(news.openStream()));
 			//Store the JSON String
 			while ((inputLine = in.readLine()) != null){
 			    jString+= inputLine;  
 			}
-			System.out.println(jString);
 			in.close();
 			
 			//Return an Arraylist containing GuelphNews objects with relative information
@@ -58,8 +71,187 @@ public class MyGuelph{
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		}
+
+		//Failed to get values... deal with it!
+		return null;
+	}
+	
+	//Action to retrieve a ArrayList of next set of GuelphNews objects
+	public ArrayList<GuelphNews> getNextGuelphNews(int lim){
+		URL news = null;
+		BufferedReader in = null;
+		String inputLine;
+		String jString = new String();
+		
+		String limit = "&limit="+lim;
+		
+		try {
+			news = new URL(site+"/api/v1/news/?"+userID+key+format+limit);
+			in = new BufferedReader(new InputStreamReader(news.openStream()));
+			//Store the JSON String
+			while ((inputLine = in.readLine()) != null){
+			    jString+= inputLine;  
+			}
+			in.close();
 			
+			//Return an Arraylist containing GuelphNews objects with relative information
+			return new GuelphNews().parseJSON(jString);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1){
+			e1.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//Failed to get values... deal with it!
+		return null;
+	}
+	
+	//Action to retrieve a ArrayList of GuelphEvents objects
+	public ArrayList<GuelphEvents> getGuelphEvents(int lim){
+		URL news = null;
+		BufferedReader in = null;
+		String inputLine;
+		String jString = new String();
+		
+		if(lim <= 0)
+			lim = 20;
+		
+		String limit = "&limit="+lim;
+		
+		try {
+			news = new URL(site+"/api/v1/event/?"+userID+key+limit+format);
+			in = new BufferedReader(new InputStreamReader(news.openStream()));
+			//Store the JSON String
+			while ((inputLine = in.readLine()) != null){
+			    jString+= inputLine;  
+			}
+			in.close();
+			
+			//Return an Arraylist containing GuelphEvent objects with relative information
+			return new GuelphEvents().parseJSON(jString);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1){
+			e1.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//Failed to get values... deal with it!
+		return null;
+	}
+	
+	//Action to retrieve a ArrayList of next set of GuelphEvents objects
+	public ArrayList<GuelphEvents> getNextGuelphEvents(int lim){
+		URL news = null;
+		BufferedReader in = null;
+		String inputLine;
+		String jString = new String();
+		
+		String limit = "&limit="+lim;
+		
+		try {
+			news = new URL(site+"/api/v1/event/?"+userID+key+limit+format);
+			in = new BufferedReader(new InputStreamReader(news.openStream()));
+			//Store the JSON String
+			while ((inputLine = in.readLine()) != null){
+			    jString+= inputLine;  
+			}
+			in.close();
+			
+			//Return an Arraylist containing GuelphEvent objects with relative information
+			return new GuelphEvents().parseJSON(jString);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1){
+			e1.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//Failed to get values... deal with it!
+		return null;
+	}
+	
+	public ArrayList<GuelphCourses> getGuelphCourses(int lim){
+		URL news = null;
+		BufferedReader in = null;
+		String inputLine;
+		String jString = new String();
+		
+		if(lim <= 0)
+			lim = 20;
+		
+		String limit = "&limit="+lim;
+		try {
+			news = new URL(site+"/api/v1/course/?"+userID+key+limit+format);
+			in = new BufferedReader(new InputStreamReader(news.openStream()));
+			//Store the JSON String
+			while ((inputLine = in.readLine()) != null){
+			    jString+= inputLine;  
+			}
+			in.close();
+			
+			//Return an Arraylist containing GuelphEvent objects with relative information
+			return new GuelphCourses().parseJSON(jString);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1){
+			e1.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//Failed to get values... deal with it!
+		return null;
+	}
+	
+	public ArrayList<GuelphCourses> getNextGuelphCourses(int lim){
+		URL news = null;
+		BufferedReader in = null;
+		String inputLine;
+		String jString = new String();
+		
+		if(lim <= 0)
+			lim = 20;
+		
+		String limit = "&limit="+lim;
+		
+		try {
+			news = new URL(site+"/api/v1/course/?"+userID+key+limit+format);
+			in = new BufferedReader(new InputStreamReader(news.openStream()));
+			//Store the JSON String
+			while ((inputLine = in.readLine()) != null){
+			    jString+= inputLine;  
+			}
+			in.close();
+			
+			//Return an Arraylist containing GuelphEvent objects with relative information
+			return new GuelphCourses().parseJSON(jString);
+			
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1){
+			e1.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		//Failed to get values... deal with it!
@@ -99,7 +291,6 @@ public class MyGuelph{
 	public ArrayList<GuelphSchedule> getGuelphSchedule(String user, String password){
 		
 		DefaultHttpClient client = new DefaultHttpClient();
-	
 		//Set the request url
         HttpGet request = new HttpGet("https://apiguelph-nickpresta.dotcloud.com/api/v1/schedule/"+user+"/?format=json&username="+userID+"&api_key="+key);
         //Set authentication request
@@ -114,7 +305,7 @@ public class MyGuelph{
         	return new GuelphSchedule().parseJSON(jString);
         	
         }catch(IOException e){
-        	
+        	e.printStackTrace();
         } catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
