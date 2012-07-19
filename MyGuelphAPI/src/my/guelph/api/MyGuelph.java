@@ -24,9 +24,9 @@ public class MyGuelph{
 	
 	private String userID;
 	private String key;
-	private String nextNews;
-	private String nextCourses;
-	private String nextEvents;
+	private int nextNews;
+	private int nextCourses;
+	private int nextEvents;
 	private String site;
 	private String format;
 	
@@ -36,9 +36,9 @@ public class MyGuelph{
 		key = "&api_key="+_key;
 		format = "&format=json";
 		site = "https://apiguelph-nickpresta.dotcloud.com";
-		nextNews = null;
-		nextCourses = null;
-		nextEvents = null;
+		nextNews = 0;
+		nextCourses = 0;
+		nextEvents = 0;
 	}
 	
 	//Action to retrieve a ArrayList of GuelphNews objects
@@ -61,6 +61,7 @@ public class MyGuelph{
 			in.close();
 			
 			//Return an Arraylist containing GuelphNews objects with relative information
+			nextNews = lim;
 			return new GuelphNews().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {
@@ -84,10 +85,13 @@ public class MyGuelph{
 		String inputLine;
 		String jString = new String();
 		
-		String limit = "&limit="+lim;
+		if(lim <= 0)
+			lim = 20;
 		
+		String limit = "&limit="+lim;
+		String offset = "&offset="+nextNews;
 		try {
-			news = new URL(site+"/api/v1/news/?"+userID+key+format+limit);
+			news = new URL(site+"/api/v1/news/?"+userID+key+format+limit+offset);
 			in = new BufferedReader(new InputStreamReader(news.openStream()));
 			//Store the JSON String
 			while ((inputLine = in.readLine()) != null){
@@ -96,6 +100,7 @@ public class MyGuelph{
 			in.close();
 			
 			//Return an Arraylist containing GuelphNews objects with relative information
+			nextNews = nextNews + lim;
 			return new GuelphNews().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {
@@ -134,6 +139,7 @@ public class MyGuelph{
 			in.close();
 			
 			//Return an Arraylist containing GuelphEvent objects with relative information
+			nextEvents = lim;
 			return new GuelphEvents().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {
@@ -157,10 +163,13 @@ public class MyGuelph{
 		String inputLine;
 		String jString = new String();
 		
-		String limit = "&limit="+lim;
+		if(lim <= 0)
+			lim = 20;
 		
+		String limit = "&limit="+lim;
+		String offset = "&offset="+nextEvents;
 		try {
-			news = new URL(site+"/api/v1/event/?"+userID+key+limit+format);
+			news = new URL(site+"/api/v1/event/?"+userID+key+limit+format+offset);
 			in = new BufferedReader(new InputStreamReader(news.openStream()));
 			//Store the JSON String
 			while ((inputLine = in.readLine()) != null){
@@ -169,6 +178,7 @@ public class MyGuelph{
 			in.close();
 			
 			//Return an Arraylist containing GuelphEvent objects with relative information
+			nextEvents = nextEvents + lim;
 			return new GuelphEvents().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {
@@ -205,6 +215,7 @@ public class MyGuelph{
 			in.close();
 			
 			//Return an Arraylist containing GuelphEvent objects with relative information
+			nextCourses = lim;
 			return new GuelphCourses().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {
@@ -231,9 +242,9 @@ public class MyGuelph{
 			lim = 20;
 		
 		String limit = "&limit="+lim;
-		
+		String offset = "&offset="+nextCourses;
 		try {
-			news = new URL(site+"/api/v1/course/?"+userID+key+limit+format);
+			news = new URL(site+"/api/v1/course/?"+userID+key+limit+format+offset);
 			in = new BufferedReader(new InputStreamReader(news.openStream()));
 			//Store the JSON String
 			while ((inputLine = in.readLine()) != null){
@@ -242,6 +253,8 @@ public class MyGuelph{
 			in.close();
 			
 			//Return an Arraylist containing GuelphEvent objects with relative information
+			//Increment counter for next results
+			nextCourses = nextCourses + lim;
 			return new GuelphCourses().parseJSON(jString);
 			
 		} catch (MalformedURLException e1) {

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class GuelphMealPlan {
 
 	private String type;
-	private double balance;
+	private String balance;
 	private String uri;
 	
 	public GuelphMealPlan() {
@@ -20,7 +20,7 @@ public class GuelphMealPlan {
 		uri = _uri;
 	}
 	
-	private void setBalance(double _balance){
+	private void setBalance(String _balance){
 		balance = _balance;
 	}
 	
@@ -32,7 +32,7 @@ public class GuelphMealPlan {
 		return uri;
 	}
 	
-	public double getBalance(){
+	public String getBalance(){
 		return balance;
 	}
 	
@@ -50,7 +50,7 @@ public class GuelphMealPlan {
 		    
 		    //Set and gather info from the jsonString
 		    GuelphMealPlan mealInfo = new GuelphMealPlan();
-		    mealInfo.setBalance(jsonObject.getDouble("balance"));
+		    mealInfo.setBalance(jsonObject.getString("balance"));
 		    mealInfo.setType(jsonObject.getString("type"));
 		    mealInfo.setUri(jsonObject.getString("resource_uri"));
 		 
