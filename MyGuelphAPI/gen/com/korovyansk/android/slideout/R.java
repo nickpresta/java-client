@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package my.guelph.api;
+package com.korovyansk.android.slideout;
 
 public final class R {
     public static final class attr {

@@ -5,31 +5,77 @@
     android:layout_height="fill_parent"
     android:background="@drawable/guelph1" >
 
-    ;Top Bar Section
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
         android:layout_height="45dip"
+        android:background="#bb000000"
         android:paddingLeft="2dip"
-        android:paddingRight="2dip"
-        android:background="#bb000000">
+        android:paddingRight="2dip" >
 
-        <Button style="@android:style/Widget.Button.Small"
+        <Button
             android:id="@+id/sample_button"
+            style="@android:style/Widget.Button.Small"
             android:layout_width="35dip"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dip"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:text=">"/>
-       	
-        <TextView android:layout_width="wrap_content"
-            android:id="@+id/current_window"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/sample_button"
             android:layout_centerVertical="true"
-            android:textSize="19sp"
+            android:layout_marginRight="10dip"
+            android:text=">" />
+
+        <TextView
+            android:id="@+id/navigation_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/sample_button"
+            android:text="@string/navigation_title"
             android:textColor="#ffffff"
-            android:text="MyGuelph App"/>
+            android:textSize="19sp" />
     </RelativeLayout>
-	;End Top Bar
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#bb000000"
+        android:paddingLeft="2dip"
+        android:paddingRight="2dip" >
+
+        <Button
+            android:id="@+id/news_back"
+            style="@android:style/Widget.Button.Small"
+            android:layout_width="50dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:text="Prev" />
+
+        <Button
+            android:id="@+id/news_forward"
+            style="@android:style/Widget.Button.Small"
+            android:layout_width="50dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:text="Next" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/NewsList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/relativeLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector" >
+
+    </ListView>
+
 </RelativeLayout>
